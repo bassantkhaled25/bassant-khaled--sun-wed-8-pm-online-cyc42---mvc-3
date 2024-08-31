@@ -1,0 +1,27 @@
+﻿using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL.contexts
+{
+    public class CompanyDbcontext : DbContext
+
+    {
+        public CompanyDbcontext(DbContextOptions <CompanyDbcontext> options) : base (options)     //constructor
+        {
+
+        }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        //{                                                                                  //connection string
+        //    optionsBuilder.UseSqlServer("Server = .; Database = companyMVC; Trusted_Connection = true");
+        //}
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+    }
+}
