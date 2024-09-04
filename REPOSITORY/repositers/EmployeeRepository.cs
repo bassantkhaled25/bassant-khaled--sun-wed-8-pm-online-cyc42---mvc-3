@@ -9,46 +9,47 @@ using System.Threading.Tasks;
 
 namespace REPOSITORY.repositers
 {
-    public class EmployeeRepository:GenericRepository<Employee> ,IEmploeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IEmploeeRepository
 
     {
-        private readonly CompanyDbcontext _context;
+        private readonly CompanyDbcontext _context;                               //inject Dbcontext
 
-        public EmployeeRepository(CompanyDbcontext Context) : base(Context)         //chaining on base
+        public EmployeeRepository(CompanyDbcontext Context) : base(Context)       //chaining on base
 
         {
-            _context=Context;
+            _context = Context;
         }
 
-        public void Add(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Add(Employee employee)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void Delete(Employee employee)
-        { 
-            throw new NotImplementedException();
-        }
+        //public void Delete(Employee employee)
+        //{ 
+        //    throw new NotImplementedException();
+        //}
 
-        public IEnumerable<Employee> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        //public IEnumerable<Employee> GetAll()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Employee GetbyId(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Employee GetbyId(int? id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public IEnumerable<Employee> GetEmployeesbyname(string name)         //use inteface (IEmployeeRep)  //get employee by ....
         {
             throw new NotImplementedException();
         }
 
-        public void Update(Employee employee)
+        //    public void Update(Employee employee)
 
-        {
-            throw new NotImplementedException();
-        }
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
 }

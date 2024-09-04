@@ -11,7 +11,7 @@ namespace REPOSITORY.interfaces
 
    {
 
-        T GetbyId(int id);                            //5 operations
+        T GetbyId(int? id);                            //5 operations
 
         void Add(T entity);
 
@@ -20,6 +20,6 @@ namespace REPOSITORY.interfaces
         IEnumerable<T> GetAll();
 
         void Delete(T entity);
-   }
+    }
 
 }

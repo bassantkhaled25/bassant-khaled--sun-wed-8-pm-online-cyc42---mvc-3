@@ -1,0 +1,31 @@
+﻿@model Department
+
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Department Details</h1>
+<br/>                                                                             @*  break *@
+
+<div>
+    <div class="form-group">
+        <label class="col-form-label" asp-for="code"></label>
+        <input class="form-control" asp-for="code" readonly />                   @* readonly (doesnot need to edit it مش عاوز حد يغير فيه ) *@
+    </div> 
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" readonly />
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="CreatedAt"></label>
+        <input class="form-control" asp-for="CreatedAt" readonly />
+    </div>
+    <br />
+
+    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-success">Update</a>      @* link between (details and update) *@
+    <a asp-action="Index" class="btn btn-light">Back To List</a>
+
+</div>

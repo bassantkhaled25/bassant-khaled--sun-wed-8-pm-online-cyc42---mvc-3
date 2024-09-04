@@ -11,7 +11,7 @@ namespace DAL.Entities
 
    {
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
 
         public int? Age { get; set; }
@@ -19,6 +19,7 @@ namespace DAL.Entities
         [MaxLength(50)]
         public string Address { get; set; }
 
+        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
 
         [Required]
@@ -33,7 +34,7 @@ namespace DAL.Entities
                                                                    //ForeignKey("Department")
         public int? DepartmentId { get; set; }
                                                                   // Navigational Property (one)
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
 
 
 

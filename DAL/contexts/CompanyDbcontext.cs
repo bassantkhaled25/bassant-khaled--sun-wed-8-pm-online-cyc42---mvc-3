@@ -21,6 +21,13 @@ namespace DAL.contexts
         //{                                                                                  //connection string
         //    optionsBuilder.UseSqlServer("Server = .; Database = companyMVC; Trusted_Connection = true");
         //}
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        //{
+        //    modelBuilder.Entity<BaseEntity>().HasQueryFilter (x => !x.IsDeleated);   //global filtering (soft delete)
+        //    base.OnModelCreating(modelBuilder);
+        //}
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
     }

@@ -1,7 +1,9 @@
-using DAL.contexts;
+﻿using DAL.contexts;
 using Microsoft.EntityFrameworkCore;
 using REPOSITORY.interfaces;
 using REPOSITORY.repositers;
+using SERVIES.interfaces;
+using SERVIES.services;
 
 namespace PL
 {
@@ -13,7 +15,7 @@ namespace PL
 
             // Add services to the container.
 
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();                        //mvc
 
             builder.Services.AddDbContext<CompanyDbcontext> (option =>                            //register servies(dbcontext)  //to read (connection string from appsettings)
             {
@@ -22,7 +24,11 @@ namespace PL
 
             });
 
-            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();          //register servies(IDepartment Repository) to inject it in ....
+         
+            /* builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();          //register service(IDepartment Repository) to inject it in (....)      .. ده لو معملتش (service layer)*/
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();                                //register service(unit of work to save changes) to inject it in (...)
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();                  //register service(IDepartment service) to inject it in (....)
 
             var app = builder.Build();
 

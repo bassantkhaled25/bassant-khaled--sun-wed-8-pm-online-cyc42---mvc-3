@@ -11,9 +11,13 @@ namespace DAL.Entities
     public class Department:BaseEntity
 
     {
-        [Required]
-        [MaxLength(50)]
+       
+       [MaxLength(50)]
+       [Required(ErrorMessage = "DepartmentName is required")]                                 //configurations ممكن اعملها في فولدر لوحدها
+        
       public string Name {  get; set; }
+
+       [Required(ErrorMessage = "DepartmentCode is required")]
       public string code { get; set; }
                                                                      // Navigational prop (many)
       public ICollection <Employee> Employees { get; set; } = new HashSet <Employee>();
