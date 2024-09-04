@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SERVIES.interfaces
 {
-    public interface IDepartmentService                      //
+    public interface IDepartmentService                      ////
     {
 
         Department GetbyId(int? id);                            //5 operations
