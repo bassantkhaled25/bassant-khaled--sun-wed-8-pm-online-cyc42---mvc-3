@@ -1,5 +1,6 @@
 ﻿using DAL.Entities;
 using System;
+using SERVIES.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +11,15 @@ namespace SERVIES.interfaces
     public interface IDepartmentService
     {
 
-        Department GetbyId(int? id);                            //5 operations
+        DepartmentDto GetbyId(int? id);                            //5 operations
 
-        void Add(Department entity);
+        void Add(DepartmentDto entity);
 
-        void Update(Department entity);
+        void Update(DepartmentDto entity);
 
-        IEnumerable<Department> GetAll();
+        IEnumerable<DepartmentDto> GetAll();
 
-        void Delete(Department entity);
+        void Delete(DepartmentDto entity);
     }
 }
 

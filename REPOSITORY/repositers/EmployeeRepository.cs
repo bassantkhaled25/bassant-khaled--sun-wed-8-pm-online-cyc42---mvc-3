@@ -1,5 +1,6 @@
 ﻿using DAL.contexts;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using REPOSITORY.interfaces;
 using System;
 using System.Collections.Generic;
@@ -20,36 +21,19 @@ namespace REPOSITORY.repositers
             _context = Context;
         }
 
-        //public void Add(Employee employee)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        //search                                                          //احطها في ال service => لاني هنادي عليها من هناك
+        public IEnumerable<Employee> GetEmployeesbyName(string name)                 //IEnumrable >>  عشان وارد اعمل سيرش بكلمه وترجع => list   ..  /* no pagination + لو بشتغل ع داتا صغيره مش كبيره IEnumarable */      //use inteface (IEmployeeRep)  //get employee by ....
 
-        //public void Delete(Employee employee)
-        //{ 
-        //    throw new NotImplementedException();
-        //}
+            => _context.Employees.Where(x=>
+             
+             x.Name.Trim().ToLower().Contains(name.Trim().ToLower())||                //trim to remove spaces
+             x.Email.Trim().ToLower().Contains(name.Trim().ToLower())||               
+             x.PhoneNumber.Trim().ToLower().Contains(name.Trim().ToLower())).ToList();                 
+        
+    }               //خليت ال functionality تشتغل (name - email - phoneNum)
 
-        //public IEnumerable<Employee> GetAll()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Employee GetbyId(int? id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public IEnumerable<Employee> GetEmployeesbyname(string name)         //use inteface (IEmployeeRep)  //get employee by ....
-        {
-            throw new NotImplementedException();
-        }
-
-        //    public void Update(Employee employee)
-
-        //    {
-        //        throw new NotImplementedException();
-        //    }
-        //}
-    }
 }
+
+       
+    
+

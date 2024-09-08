@@ -1,8 +1,10 @@
 ﻿using DAL.contexts;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using REPOSITORY.interfaces;
 using REPOSITORY.repositers;
 using SERVIES.interfaces;
+using SERVIES.mapping;
 using SERVIES.services;
 
 namespace PL
@@ -24,12 +26,15 @@ namespace PL
 
             });
 
-         
+
             /* builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();          //register service(IDepartment Repository) to inject it in (....)      .. ده لو معملتش (service layer)*/
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();                                //register service(unit of work to save changes) to inject it in (...)
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();                  //register service(IDepartment service) to inject it in (....)
-
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddAutoMapper(x => x.AddProfile(new Employeeprofile()));           //register service (automapper)
+            builder.Services.AddAutoMapper(x =>x.AddProfile(new Departmentprofile()));    
+         
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

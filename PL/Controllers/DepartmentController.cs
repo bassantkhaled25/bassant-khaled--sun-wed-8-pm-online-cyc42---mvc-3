@@ -1,44 +1,56 @@
-﻿using DAL.Entities;
+﻿using AutoMapper;
+using DAL.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using REPOSITORY.interfaces;
 using SERVIES.interfaces;
+using SERVIES.services;
+using SERVIES.ViewModels;
 
 namespace PL.Controllers
 {
-    public class DepartmentController : Controller
+    public class DepartmentController : Controller                              
 
     {
-        private readonly IUnitOfWork _unitOfWork;                               //inject (unit of work)
+       /* private readonly IUnitOfWork _unitOfWork;  */                             //inject (unit of work)
 
-        /* private readonly IDepartmentService _departmentService;  */          //inject field (IDeptservice) => needs registeration
+        private readonly IDepartmentService _departmentService;                    //inject field (IDeptservice) => needs registeration
 
-        private readonly ILogger<DepartmentController> _logger;                   // + inject (ilogger)
+        private readonly ILogger<DepartmentController> _logger;                     // + inject (ilogger)
 
-        public DepartmentController (/*IDepartmentService departmentService*/ IUnitOfWork unitOfWork , ILogger<DepartmentController> logger)
+        private readonly IMapper _mapper;
+
+        public DepartmentController (IDepartmentService departmentService , /*IUnitOfWork unitOfWork ,*/ ILogger<DepartmentController> logger , IMapper mapper)
 
         {
-            _unitOfWork = unitOfWork;
+            //_unitOfWork = unitOfWork;
+
+            _departmentService = departmentService;
           
             _logger = logger;
+          
+            _mapper =mapper;
 
-            //_departmentService = departmentService;
+        
         }
 
 
         public IActionResult Index()                                            //action(index)
 
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
+            var departments = _departmentService.GetAll();
+           
+            return View(departments);
 
-            return View(departments);                                          //return view + departments
+
+                                                                             //return view + departments
         }
+    
 
 
-
-        [HttpGet]                        //1                                  //action (create or add) (get and post)
+        [HttpGet]                                                        //action (create or add) (get and post)
         public IActionResult Create()
 
         {
@@ -47,17 +59,17 @@ namespace PL.Controllers
 
 
 
-        [HttpPost]                        //2             
-
-        public IActionResult Create(Department department)                                  //هبعتله ال dep .. post => بعد ما عملت ال get هيروح ع ديه
+        [HttpPost]                        
+        public IActionResult Create(DepartmentDto department)                                  //هبعتله ال dep .. post => بعد ما عملت ال get هيروح ع ديه
 
         {
 
             if (ModelState.IsValid)                                                        //validations
 
             {
-                _unitOfWork.DepartmentRepository.Add(department);        // لو اكتر من opeartion هيعمل save مره واحده
-                _unitOfWork.complete();                                   //method to save changes
+                
+                _departmentService.Add(department);     
+                                               
                 return RedirectToAction(nameof(Index));                                            //redirect to index page after adding
             }
 
@@ -78,7 +90,7 @@ namespace PL.Controllers
                 if (id is null)
                     return BadRequest();                                                   //error 400 (if doesnot send id)
 
-                var department = _unitOfWork.DepartmentRepository.GetbyId(id);                    //if id not found in table
+                var department = _departmentService.GetbyId(id);                    //if id not found in table
 
                 if (department == null)
                     return NotFound();
@@ -106,7 +118,7 @@ namespace PL.Controllers
             if (id is null)
                 return NotFound();                                              //error 400 (if doesnot send id)
 
-            var department = _unitOfWork.DepartmentRepository.GetbyId(id);                    //if id not found in table
+            var department = _departmentService.GetbyId(id);                    //if id not found in table
 
             if (department == null)
                 return NotFound();
@@ -116,7 +128,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(int id, Department department)
+        public IActionResult Update(int? id, DepartmentDto department)
 
         {
             if (id != department.Id)
@@ -128,8 +140,9 @@ namespace PL.Controllers
                 try
 
                 {
-                    _unitOfWork.DepartmentRepository.Update(department);
-                    _unitOfWork.complete();
+
+                    _departmentService.Update(department);
+                   
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -152,7 +165,7 @@ namespace PL.Controllers
             if (id is null)
                 return NotFound();                                              //error 400 (if doesnot send id)
 
-            var department = _unitOfWork.DepartmentRepository.GetbyId(id);                    //if id not found in table
+            var department = _departmentService.GetbyId(id);                    //if id not found in table
 
             if (department == null)
                 return NotFound();
@@ -160,9 +173,7 @@ namespace PL.Controllers
             else
 
             {
-                _unitOfWork.DepartmentRepository.Delete(department);
-
-                _unitOfWork.complete();
+                _departmentService.Delete(department);
 
                 return RedirectToAction(nameof(Index));
             }

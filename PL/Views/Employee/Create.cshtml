@@ -1,62 +1,82 @@
-﻿@model Employee
+﻿@model EmployeeDto
 
 
 @{
-    ViewData["Title"] = "Create";
-}
-
+    var departments = new SelectList(ViewBag.Departments, nameof(Department.Id), nameof(Department.Name));    /* Value - text */     @*  select list جاهزه *@ @*  هباصيها للفورم*@
+}                                                                                                                                     
+ 
 
 <h1>Craete New Employee</h1>
 
 
-<form asp-action="Create" , asp-controller="Employee">
+<form asp-action="Create" enctype="multipart/form-data">         @* for file *@
+
                                                                  @* action (form) => (post)  *@    @* action (create)  //default for form method is (post) *@
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Name"></label>
-        <input class="form-control" asp-for="Name" />
+        <input type ="text" class="form-control" asp-for="Name" />                   @* input type  هيحدد نوع ال => input *@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Age"></label>
-        <input class="form-control" asp-for="Age" />
+        <input type="number" class="form-control" asp-for="Age" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Email"></label>
-        <input class="form-control" asp-for="Email" />
+        <input type="email" class="form-control" asp-for="Email" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Address"></label>
-        <input class="form-control" asp-for="Address" />
+        <input type="text" class="form-control" asp-for="Address" />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="HiringDate"></label>
-        <input class="form-control" asp-for="HiringDate" />
+        <input type="date" class="form-control" asp-for="HiringDate" />
         <span asp-validation-for="HiringDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="PhoneNumber"></label>
-        <input class="form-control" asp-for="PhoneNumber" />
+        <input type="number" class="form-control" asp-for="PhoneNumber" />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
 
     <div class="form-group">
         <label class="col-form-label" asp-for="Salary"></label>
-        <input class="form-control" asp-for="Salary" />
+        <input type="number" class="form-control" asp-for="Salary" />
        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
-    <br />                                                                     @* break *@
 
-    <input type="submit" value="Add" class="btn btn-primary" />            @* call action (create) *@
-    <a asp-action="Index" class="btn btn-light">Back To List</a>           @* back to list *@
+                                                                   
+    <div class="form-group">                                                     @* //drop down list (key-value) => id , name (يتكي ع الاسم يجيب ال id) *@
+       <label class="col-form-label" asp-for="Department"></label>              
+       <select class="form-control" asp-items="@departments" asp-for="DepartmentId">
+       <option value="@null">--select Department </option>                             @* اوبشنز ع حسب الاقسام *@   @* first value => null *@ @* من غير ما اعمل foreach انا عرفته فوق ال => value and text *@
+       </select>
+    </div> 
+
+    <br />                                                                          @*  break *@
+
+    <div class="form-group">                                                        @* imageURL *@
+
+      <label class="col-form-label" asp-for="Image">Image</label>              
+      <input type="file" class="form-control-file" asp-for="Image" />
+
+  </div>
+
+    <input type="submit" value="Add" class="btn btn-primary" />               @* call action (create) *@
+    <a asp-action="Index" class="btn btn-light">Back To List</a>               @* back to list *@
 </form>
+
+<br />
 
 @section Scripts {
 

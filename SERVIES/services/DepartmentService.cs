@@ -1,7 +1,11 @@
-﻿using DAL.Entities;
+﻿using AutoMapper;
+using DAL.contexts;
+using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using REPOSITORY.interfaces;
 using SERVIES.interfaces;
+using SERVIES.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,47 +19,68 @@ namespace SERVIES.services
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public DepartmentService(IUnitOfWork unitOfWork)      //inject (Iunitofwork)
+        public DepartmentService(IUnitOfWork unitOfWork , IMapper mapper)      //inject (Iunitofwork)
         {
 
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public void Add(Department entity)
+        public void Add(DepartmentDto departmentDto)
         {
-            _unitOfWork.DepartmentRepository.Add(entity);
+            var mappeedDep=_mapper.Map<Department>(departmentDto);       //depDto => dep   source (depDto)=> destination(dep)
+            _unitOfWork.DepartmentRepository.Add(mappeedDep);
             _unitOfWork.complete();
 
         }
 
-        public void Delete(Department entity)
+       
+        public void Delete(DepartmentDto departmentDto)
         {
-            _unitOfWork.DepartmentRepository.Delete(entity);                    //ممكن اعمل validation ان مينفعش امسح dep فيه ناس
+            var mappeedDep = _mapper.Map<Department>(departmentDto);              //depDto => dep   source (depDto)=> destination(dep)
+            _unitOfWork.DepartmentRepository.Delete(mappeedDep);                    //ممكن اعمل validation ان مينفعش امسح dep فيه ناس
             _unitOfWork.complete();
         
         }
 
-
-        public IEnumerable<Department> GetAll()
+        public IEnumerable<DepartmentDto> GetAll()
         {
-            var departments = _unitOfWork.DepartmentRepository.GetAll();
-            return departments;
+            var departments = _unitOfWork.DepartmentRepository.GetAll();      //list of dep =>(map to) IEnumrable depDto
+            var mappeddep=_mapper.Map<IEnumerable<DepartmentDto>>(departments);
+            return mappeddep;
         }
 
-        public Department GetbyId(int? id)
+        public DepartmentDto GetbyId(int? id)
+
         {
-            var department = _unitOfWork.DepartmentRepository.GetbyId(id);
-            return department;
+            if (id == null)
+                return null;
+
+            var department = _unitOfWork.DepartmentRepository.GetbyId(id.Value);      //dep=>depDto
+
+
+            if (department == null)
+                return null;
+
+          var mappeddep = _mapper.Map<DepartmentDto>(department);
+
+
+            return mappeddep;
         }
 
-        public void Update(Department entity)
-        {
+      
 
-            _unitOfWork.DepartmentRepository.Update(entity);
-            _unitOfWork.complete();
+            public void Update(DepartmentDto entity)
 
-        }
+            {
 
+              //_unitOfWork.DepartmentRepository.Update(entity);
+              //_unitOfWork.complete();
+
+            }
+
+     
     }
 }

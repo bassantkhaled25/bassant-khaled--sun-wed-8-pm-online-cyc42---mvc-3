@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using SERVIES.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,16 @@ namespace SERVIES.interfaces
    public interface IEmployeeService
     {
 
-       Employee GetbyId(int? id);                            //5 operations
+       EmployeeDto GetbyId(int? id);                            //5 operations
 
-        void Add(Employee entity);
+        void Add(EmployeeDto entity);
+                                                        
+        void Update(EmployeeDto entity);
 
-        void Update(Employee entity);
+        IEnumerable<EmployeeDto> GetAll();
 
-        IEnumerable<Employee> GetAll();
+        void Delete(EmployeeDto entity);
 
-        void Delete(Employee entity);
+        IEnumerable<EmployeeDto> GetEmployeesbyName(string name);            //زودت ديه للسيرش + implementation in class employeeservice
     }
 }

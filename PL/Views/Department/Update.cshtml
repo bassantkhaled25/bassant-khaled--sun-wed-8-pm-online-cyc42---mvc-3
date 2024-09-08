@@ -1,4 +1,4 @@
-﻿@model Department
+﻿@model DepartmentDto
 
 
 @{
@@ -7,7 +7,7 @@
 
 
 <form asp-action="Update"  asp-controller="Department">
-                                                              @* action (form) => (post)  *@    @* action (update)  //default for form method is (post) *@
+                                                              @* action (form) => (post) *@    @* action (update)  //default for form method is (post) *@
 
     <div class="form-group">
         <label class="col-form-label" asp-for="code"></label>          
@@ -21,7 +21,7 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-  <br />                                                                     @* break *@
+  <br />                                                                       @* break *@
 
     <input type="submit" value="Update" class="btn btn-primary" />            @* call action (update) *@
     <a asp-action="Index" class="btn btn-light">Back To List</a>              @* back to list *@
@@ -29,5 +29,5 @@
 
 @section Scripts {
 
-    <partial name="_ValidationScriptsPartial" />                          @*  partial view *@
+    <partial name="_ValidationScriptsPartial" />                            @* partial view *@
 }

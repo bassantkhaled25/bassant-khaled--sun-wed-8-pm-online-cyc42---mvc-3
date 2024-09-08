@@ -1,45 +1,76 @@
-﻿using DAL.Entities;
+﻿using AutoMapper;
+using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using REPOSITORY.interfaces;
+using REPOSITORY.repositers;
+using SERVIES.Helper;
+using SERVIES.interfaces;
+using SERVIES.ViewModels;
+using System.Buffers;
 
 namespace PL.Controllers
 {
     public class EmployeeController:Controller
 
     {
-        private readonly ILogger<EmployeeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
-       
+        //private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeController (IUnitOfWork unitOfWork,ILogger<EmployeeController> logger)
+        private readonly ILogger<EmployeeController> _logger;                 //console msg
+        private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;                                    //auto mapper
+        private readonly IDepartmentService _departmentService;          //list of dep عشان اعمل ال => drop down list
+
+
+        public EmployeeController(/*IUnitOfWork unitOfWork*/ IEmployeeService employeeService,IMapper mapper, ILogger<EmployeeController> logger, IDepartmentService departmentService)
 
         {
-            
-            _unitOfWork = unitOfWork;
+
+            //_unitOfWork = unitOfWork;
             _logger = logger;
-           
+            _departmentService = departmentService;
+            _employeeService = employeeService;
+            _mapper = mapper;
+
         }
 
-        public IActionResult Index()                                           
+        public IActionResult Index(string searchInput)
 
         {
-            var Employees = _unitOfWork.EmploeeRepository.GetAll();
 
-            return View(Employees);                                          //return view + emp
+
+            if (string.IsNullOrEmpty(searchInput))
+
+            { 
+
+              var emps = _employeeService.GetAll();
+              return View(emps);
+
+            }
+
+            else
+
+            {
+                var employees = _employeeService.GetEmployeesbyName(searchInput);
+                return View(employees);
+            }
+
+         
         }
+
 
         [HttpGet]
         public IActionResult Create()
 
         {
+            ViewBag.Departments =_departmentService.GetAll();             //drop down list of dep
             return View();
 
         }
 
         [HttpPost]
 
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeDto employeeDto)           
 
         {
             /*ModelState["Department"].ValidationState = ModelValidationState.Valid; */      
@@ -47,19 +78,17 @@ namespace PL.Controllers
             if (ModelState.IsValid)
 
             {
-                _unitOfWork.EmploeeRepository.Add(employee);
-                _unitOfWork.complete();
-                return RedirectToAction(nameof(Index));
+              
+               _employeeService.Add(employeeDto);
+
+               return RedirectToAction(nameof(Index));
             }
 
             else
 
             {
-
-                return View(employee);
+                return View(employeeDto);
             }
-
-
 
         }
 
@@ -73,12 +102,14 @@ namespace PL.Controllers
                 if (id is null)
                     return BadRequest();
 
-                var employee = _unitOfWork.EmploeeRepository.GetbyId(id);
+                var employee = _employeeService.GetbyId(id);
+
                 if (employee == null)
-                    return NotFound();
+                    return NotFound();                                        
+
 
                 return View(employee);
-
+        
             }
 
             catch (Exception ex)
@@ -97,7 +128,7 @@ namespace PL.Controllers
             if (id is null)
                 return NotFound();
 
-            var employee = _unitOfWork.EmploeeRepository.GetbyId(id);
+            var employee = _employeeService.GetbyId(id);
             if (employee == null)
                 return NotFound();
 
@@ -106,7 +137,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(int id, Employee employee)
+        public IActionResult Update(int id, EmployeeDto employee)
 
         {
             if (id != employee.Id)
@@ -119,8 +150,8 @@ namespace PL.Controllers
                 try
 
                 {
-                    _unitOfWork.EmploeeRepository.Update(employee);
-                    _unitOfWork.complete();
+                    
+                    _employeeService.Update(employee);
                     return RedirectToAction(nameof(Index));
                 }
 
@@ -142,20 +173,22 @@ namespace PL.Controllers
         public IActionResult Delete(int? id)
 
         {
+            
+
             if (id is null)
                 return NotFound();
 
-            var employee = _unitOfWork.EmploeeRepository.GetbyId(id);
+            var employee = _employeeService.GetbyId(id);    
 
+           
             if (employee == null)
                 return NotFound();
 
+          
             else
 
             {
-                _unitOfWork.EmploeeRepository.Delete(employee);
-
-                _unitOfWork.complete();
+                _employeeService.Delete(employee);
 
                 return RedirectToAction(nameof(Index));
             }

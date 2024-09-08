@@ -29,8 +29,8 @@ namespace REPOSITORY.repositers
 
         public void Delete(T entity)
         {
-            _Context.Set<T>().Remove(entity);                                  //hard delete //soft delete(like update)
-                                                                               //_Context.SaveChanges();
+            _Context.Set<T>().Remove(entity);                               //hard delete //soft delete(like update)
+                                                                            //_Context.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()

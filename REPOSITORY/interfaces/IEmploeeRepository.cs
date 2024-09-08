@@ -11,7 +11,7 @@ public interface IEmploeeRepository:IGenericRepository<Employee>
 
 {
     Employee GetbyId(int? id);                                                             //كل واحد بزود في ال interface بتاعه         
-    IEnumerable<Employee> GetEmployeesbyname (string name); 
+    IEnumerable<Employee> GetEmployeesbyName (string name);                              //عامل methods هاخدها => implement in class
   
 
  }

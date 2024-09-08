@@ -1,4 +1,4 @@
-﻿@model Department
+﻿@model DepartmentDto
 
 
 @{
@@ -10,7 +10,7 @@
 
 
 <form asp-action="Create" , asp-controller="Department">
-                                                               @* action (form) => (post)  *@    @* action (create)  //default for form method is (post) *@
+                                                                    @* action (form) => (post)  *@    @* action (create)  //default for form method is (post) *@
 
     <div class="form-group">
         <label class="col-form-label" asp-for="code"></label>          
@@ -24,7 +24,7 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-  <br />                                                                     @* break *@
+  <br />                                                                         @* break *@
 
     <input type="submit" value="Add" class="btn btn-primary" />            @* call action (create) *@
     <a asp-action="Index" class="btn btn-light">Back To List</a>           @* back to list *@
