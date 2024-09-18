@@ -46,9 +46,9 @@ namespace PL
                 config.Password.RequiredLength = 6;
                 config.Password.RequireLowercase = true;
                 config.Password.RequireUppercase = true;
-                config.Lockout.MaxFailedAccessAttempts = 5;
+                config.Lockout.MaxFailedAccessAttempts = 5;                                    //try 5 times 
                 config.Lockout.AllowedForNewUsers = true;
-                config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(1);
+                config.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(1);             //block for 1 hour لو حاول اكتر من 5 مرات غلط
 
             }).AddEntityFrameworkStores<CompanyDbcontext>()                               //register dbcontext(data of identity) ال config اللي حطيتها وبقوله dbcontext ديه
               .AddDefaultTokenProviders();
@@ -59,10 +59,11 @@ namespace PL
                 option.Cookie.HttpOnly = true;
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 option.SlidingExpiration = true;
-                option.LoginPath = "/Account/Login";
+                option.LoginPath = "/Account/SignIn";
                 option.LogoutPath = "/Account/Logout";
                 option.AccessDeniedPath = "/Account/AccessDenied";
-                option.Cookie.Name = "cookie";
+                //option.Cookie.Name = "cookie";
+                option.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 option.Cookie.SameSite=SameSiteMode.Strict;
             });
 
@@ -88,7 +89,7 @@ namespace PL
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Account}/{action=SignUp}");   //goes to sign up page
 
             app.Run();
         }

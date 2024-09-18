@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-    public class ApplicationUser : IdentityUser        //class بورث منه
+    public class ApplicationUser : IdentityUser        //IdentityUser => class => بورث منه
 
-    {
+	{
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public bool IsActive { get; set; }
+		public bool IsActive { get; set; }
+
 
 
 

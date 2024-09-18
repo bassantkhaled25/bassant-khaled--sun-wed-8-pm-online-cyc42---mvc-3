@@ -23,7 +23,7 @@ namespace PL.Models
         [Compare(nameof(Password),ErrorMessage ="confirm password doesnot match password")]
         [DataType(DataType.Password)]
         public string confirmPassword { get; set; }
-        public bool IsAgree { get; set; }
+        public bool IsActive{ get; set; }
 
 
 
