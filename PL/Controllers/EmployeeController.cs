@@ -12,7 +12,7 @@ using System.Buffers;
 
 namespace PL.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]                              //autherize
     public class EmployeeController : Controller
 
     {

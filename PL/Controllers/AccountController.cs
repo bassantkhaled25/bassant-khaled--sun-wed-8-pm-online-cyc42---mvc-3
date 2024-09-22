@@ -11,7 +11,7 @@ using SERVIES.Helper;
 using System.Security.Cryptography.X509Certificates;
 
 namespace PL.Controllers
-{
+{                       
 	public class AccountController : Controller
 
 	{
