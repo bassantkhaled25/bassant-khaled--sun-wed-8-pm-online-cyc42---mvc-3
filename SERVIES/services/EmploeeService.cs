@@ -157,14 +157,30 @@ namespace SERVIES.services
            
 
         }
-        public void Update(EmployeeDto entity)
+
+
+        public void Update(EmployeeDto employeeDto)
 
         {
+            var employee = _mapper.Map<Employee>(employeeDto);           
 
-            //_unitOfWork.EmploeeRepository.Update(entity);
-            //_unitOfWork.complete();
+            if (employeeDto.Image != null)
+            {
+                bool deletedImage = DocumentSettings.DeleteFile(employeeDto.ImageUrl, "images");   //deletefile -uploadfile(methods in document settings)
+
+                if (deletedImage)
+                {
+                    employee.ImageUrl = DocumentSettings.UploadFile(employeeDto.Image, "images");
+
+                }
+
+            }
+
+            _unitOfWork.EmploeeRepository.Update(employee);
+            _unitOfWork.complete();
 
         }
+      
     }
 }
 

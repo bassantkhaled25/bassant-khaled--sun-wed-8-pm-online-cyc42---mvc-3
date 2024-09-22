@@ -16,7 +16,7 @@ namespace SERVIES.Helper
         {
             //1-get folder path
 
-            var folderpath=Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files" , folderName);
+            var folderpath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\files", folderName);
 
             //2-get file name
 
@@ -24,24 +24,39 @@ namespace SERVIES.Helper
 
             //3-combine folderpath + filepath
 
-            var filepath=Path.Combine(folderpath, filename);
+            var filepath = Path.Combine(folderpath, filename);
 
             //4-save file
 
-            using var filestraem = new FileStream(filepath,FileMode.Create);   //filestream => (class للتعامل مع الفايلات)
+            using var filestraem = new FileStream(filepath, FileMode.Create);   //filestream => (class للتعامل مع الفايلات)
             file.CopyTo(filestraem);                                              //filemood => انواع 
-            return filename;      
+            return filename;
+
+        }
+            public static bool DeleteFile (string ImageUrl, string FolderName)
+
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\files", FolderName);
+
+                var filePath = Path.Combine(folderPath, ImageUrl);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                    return true;
+                }
+                return false;
+
+
+
+
+            }
+
+
+
 
 
 
 
         }
-
-
-
-
-
-
-
-    }
 }

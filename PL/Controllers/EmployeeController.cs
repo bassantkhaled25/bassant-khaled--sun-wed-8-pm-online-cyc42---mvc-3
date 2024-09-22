@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using REPOSITORY.interfaces;
@@ -11,24 +12,27 @@ using System.Buffers;
 
 namespace PL.Controllers
 {
-    public class EmployeeController:Controller
+    [Authorize(Roles = "Admin")]
+    public class EmployeeController : Controller
 
     {
         //private readonly IUnitOfWork _unitOfWork;
 
         private readonly ILogger<EmployeeController> _logger;                 //console msg
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IEmployeeService _employeeService;
         private readonly IMapper _mapper;                                    //auto mapper
         private readonly IDepartmentService _departmentService;          //list of dep عشان اعمل ال => drop down list
 
 
-        public EmployeeController(/*IUnitOfWork unitOfWork*/ IEmployeeService employeeService,IMapper mapper, ILogger<EmployeeController> logger, IDepartmentService departmentService)
+        public EmployeeController(/*IUnitOfWork unitOfWork*/ IEmployeeService employeeService, IMapper mapper, ILogger<EmployeeController> logger, IDepartmentService departmentService)
 
         {
 
             //_unitOfWork = unitOfWork;
             _logger = logger;
             _departmentService = departmentService;
+            //_unitOfWork = unitOfWork;
             _employeeService = employeeService;
             _mapper = mapper;
 
@@ -41,10 +45,10 @@ namespace PL.Controllers
 
             if (string.IsNullOrEmpty(searchInput))
 
-            { 
+            {
 
-              var emps = _employeeService.GetAll();
-              return View(emps);
+                var emps = _employeeService.GetAll();
+                return View(emps);
 
             }
 
@@ -55,7 +59,7 @@ namespace PL.Controllers
                 return View(employees);
             }
 
-         
+
         }
 
 
@@ -63,25 +67,25 @@ namespace PL.Controllers
         public IActionResult Create()
 
         {
-            ViewBag.Departments =_departmentService.GetAll();             //drop down list of dep
+            ViewBag.Departments = _departmentService.GetAll();             //drop down list of dep
             return View();
 
         }
 
         [HttpPost]
 
-        public IActionResult Create(EmployeeDto employeeDto)           
+        public IActionResult Create(EmployeeDto employeeDto)
 
         {
-            /*ModelState["Department"].ValidationState = ModelValidationState.Valid; */      
+            /*ModelState["Department"].ValidationState = ModelValidationState.Valid; */
 
             if (ModelState.IsValid)
 
             {
-              
-               _employeeService.Add(employeeDto);
 
-               return RedirectToAction(nameof(Index));
+                _employeeService.Add(employeeDto);
+
+                return RedirectToAction(nameof(Index));
             }
 
             else
@@ -105,11 +109,11 @@ namespace PL.Controllers
                 var employee = _employeeService.GetbyId(id);
 
                 if (employee == null)
-                    return NotFound();                                        
+                    return NotFound();
 
 
                 return View(employee);
-        
+
             }
 
             catch (Exception ex)
@@ -136,21 +140,23 @@ namespace PL.Controllers
 
         }
 
+
+
         [HttpPost]
-        public IActionResult Update(int id, EmployeeDto employee)
+        public IActionResult Update(EmployeeDto employee)
 
         {
-            if (id != employee.Id)
+            if (employee.Id == null)
                 return NotFound();
 
-         
+
             if (ModelState.IsValid)                                               //modelstate.is valid => عشان اخليها true عملت ال  dep in entity ب null                   
 
             {
                 try
 
                 {
-                    
+
                     _employeeService.Update(employee);
                     return RedirectToAction(nameof(Index));
                 }
@@ -169,6 +175,7 @@ namespace PL.Controllers
             return View(employee);
 
         }
+
 
         public IActionResult Delete(int? id)
 

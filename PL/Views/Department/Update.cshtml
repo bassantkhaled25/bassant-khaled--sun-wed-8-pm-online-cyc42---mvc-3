@@ -9,6 +9,8 @@
 <form asp-action="Update"  asp-controller="Department">
                                                               @* action (form) => (post) *@    @* action (update)  //default for form method is (post) *@
 
+    <input hidden asp-for="Id" />
+
     <div class="form-group">
         <label class="col-form-label" asp-for="code"></label>          
         <input class="form-control" asp-for="code" />

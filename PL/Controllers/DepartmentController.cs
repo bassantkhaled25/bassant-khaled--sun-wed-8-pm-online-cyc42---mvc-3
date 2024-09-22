@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,6 +12,7 @@ using SERVIES.ViewModels;
 
 namespace PL.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartmentController : Controller                              
 
     {
@@ -128,10 +130,10 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(int? id, DepartmentDto department)
+        public IActionResult Update(DepartmentDto department)         //id hidden in view
 
         {
-            if (id != department.Id)
+            if (department.Id == null)                        
                 return NotFound();
 
 

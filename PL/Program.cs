@@ -59,7 +59,7 @@ namespace PL
                 option.Cookie.HttpOnly = true;
                 option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 option.SlidingExpiration = true;
-                option.LoginPath = "/Account/SignIn";
+                option.LoginPath = "/Account/SignIn";               //لو عامل autherized هيروح ع ده
                 option.LogoutPath = "/Account/Logout";
                 option.AccessDeniedPath = "/Account/AccessDenied";
                 //option.Cookie.Name = "cookie";

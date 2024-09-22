@@ -72,14 +72,14 @@ namespace SERVIES.services
 
       
 
-            public void Update(DepartmentDto entity)
+        public void Update(DepartmentDto departmentDto)
 
-            {
+        {
+           var department = _mapper.Map<Department>(departmentDto);  
+           _unitOfWork.DepartmentRepository.Update(department);
+           _unitOfWork.complete();
 
-              //_unitOfWork.DepartmentRepository.Update(entity);
-              //_unitOfWork.complete();
-
-            }
+        }
 
      
     }

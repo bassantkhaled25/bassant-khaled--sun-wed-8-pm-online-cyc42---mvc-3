@@ -183,7 +183,7 @@ namespace PL.Controllers
                
             }
 
-			return View("ForgetPassword",input);
+			return View("ForgetPassword",input);              //محتاج اكتبله اسم ااكشن عشان الاسماء هنا مختلفه فبقوله هتروح ع ايه
 
         }
 		
@@ -227,13 +227,17 @@ namespace PL.Controllers
 				}
 			}
 
-			return View(input);
+			return View(input);                  //الاكشنز بنفس الاسم عادي
 		}
 
 
 		#endregion
 
+		public IActionResult AccessDenied()
+		{
 
+			return View();
+		}
 
 
 

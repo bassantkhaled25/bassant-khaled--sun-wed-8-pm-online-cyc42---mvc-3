@@ -1,0 +1,30 @@
+﻿@model ApplicationUser
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Employee Details</h1>
+
+<br/>
+<br />
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="UserName"></label>
+        <input class="form-control" asp-for="UserName" readonly />
+
+    </div>
+
+    <div class="form-group">
+        <label class="col-form-label" asp-for="Email"></label>
+        <input class="form-control" asp-for="Email" readonly />
+
+    </div>
+    <br/>
+
+    <div>
+
+    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-secondary">Update</a> 
+    <a asp-action="Index" class="btn btn-success">Back To List</a>
+</div>
+
